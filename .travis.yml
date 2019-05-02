@@ -1,23 +1,13 @@
 sudo: required
+# Install docker
 services:
   - docker
 
+# Build test container
 before_install:
-  - docker build -t stephengrider/docker-react -f Dockerfile.dev .
+  - docker build -t mdimatteo/udemy-docker-react -f Dockerfile.dev .
 
+# Run test container
 script:
-  - docker run stephengrider/docker-react npm run test -- --coverage
-
-deploy:
-  provider: elasticbeanstalk
-  region: "us-west-2"
-  app: "docker"
-  env: "Docker-env"
-  bucket_name: "elasticbeanstalk-us-west-2-306476627547"
-  bucket_path: "docker"
-  on:
-    branch: master
-  access_key_id: $AWS_ACCESS_KEY
-  secret_access_key:
-    secure: "$AWS_SECRET_KEY"
+  - docker run mdimatteo/udemy-docker-react npm run test -- --coverage
 
